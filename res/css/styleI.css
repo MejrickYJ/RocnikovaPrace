@@ -1,0 +1,45 @@
+body {
+  background-image: url("/res/img/background.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+  user-select: none;
+}
+
+a:link, a:visited, a:active {
+  color:white;
+  text-decoration: none;
+}
+
+a:hover{
+
+  color: orangered;
+  cursor: pointer;
+}
+
+.wrapper {
+  width: 100%;
+  margin-top: 15%;
+}
+
+.start,
+.options {
+  color: white;
+  font-size: 75px;
+  font-family: Zen Old Mincho;
+  width: fit-content;
+  height: fit-content;
+  margin: 0 auto;
+}
+
+.start {
+  margin-bottom: 20px;
+}
+
+.options {
+
+
+}
+
+

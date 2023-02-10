@@ -1,51 +1,53 @@
-body{
-
-    background-image: url("/res/img/backgroundI.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-.back{
-    
-    position: relative;
-    color: white;
-    font-size: 40px;
-    font-family: Zen Old Mincho;
-    top: 55px;
-    text-align: center;
-
+body {
+  background-color: black;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  user-select: none;
 }
 
-.back:hover{
-    color: orange;
-    
+.back {
+  position: fixed;
+  color: white;
+  font-size: 40px;
+  font-family: Zen Old Mincho;
+  bottom: 10px;
+  right: 20px;
 }
 
-.wrapper{
-    top: 7vh;
-    position: relative;
-    text-align: center;
+.back:hover {
+  color: orange;
 }
 
-a:link, a:visited, a:active {
-    color:white;
-    text-decoration: none;
-  }
-  
-  a:hover{
-  
-    color: orangered;
-  
-  }
+#wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 1600px;
+  height: 800px;
+}
 
-  #canvas{
-    position: relative;
-    background-color: white;
-    width: 80%;
-    height: 85vh;
-    border: 5px solid red;
-    
-  }
- 
+a:link,
+a:visited,
+a:active {
+  color: white;
+  text-decoration: none;
+}
+
+a:hover {
+  color: orangered;
+}
+
+#canvas {
+  position: relative;
+  background-color: white;
+  border: 5px solid red;
+}

@@ -64,7 +64,6 @@ window.addEventListener("keydown", (event) => {
   switch (event.key) {
     case " ":
        if(player.velocityY === 0) player.velocityY = -15;
-        console.log("jump");
       break;
       
 
@@ -93,8 +92,10 @@ window.addEventListener("keyup", (event) => {
 
 function gameLoop() {
   window.requestAnimationFrame(gameLoop);
-  player.velocityX = 0;
-  
+  player.velocityX = 0; 
+  if(player.x <= 0) keys.a.pressed = false;
+  else if(player.x >= 1549) keys.d.pressed = false;
+
   movement();
 
   clearCanvas();

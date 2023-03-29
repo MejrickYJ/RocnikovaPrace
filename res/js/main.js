@@ -1,6 +1,8 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
+let speed = 0.5;
+
 canvas.width = 1600;
 canvas.height = 800;
 
@@ -25,12 +27,24 @@ class Platform {
     this.width = 150;
     this.height = 50;
   }
+
+}
+
+class Spike{
+  constructor() {
+    this.x = 1000;
+    this.y = 750;  
+    this.width = 20;
+    this.height = 50;
+  }
 }
 
 const player = new Player();  //vytvoření hráče
 const platform = new Platform();
+const spike =  new Spike();
 
-let speed = 0.5;
+
+
 
 function clearCanvas() {
   ctx.fillStyle = "white";
@@ -43,6 +57,9 @@ function draw() {
 
   ctx.fillStyle = "black";
   ctx.fillRect(platform.x, platform.y, platform.width, platform.height);
+
+  ctx.fillStyle = "orange";
+  ctx.fillRect(spike.x, spike.y, spike.width, spike.height);
 }
 
 function acceleration(){
@@ -53,6 +70,7 @@ function acceleration(){
   }
 }
 
+//Collision
 function collision(){
   
   if(player.y + player.height + player.velocityY >= platform.y && player.x + player.width >= platform.x &&
@@ -67,9 +85,16 @@ function collision(){
   }
 
 
+/////POZN. Kolize se spikem na leve strane - dodelat kolizi se zbytkem stran
+
+  if(player.x + player.width + player.height  == spike.x + spike.height && player.y + player.height >= spike.y) console.log("jsi skoncil")
+
+
   if(player.x + player.width == platform.x && player.y <= platform.y + platform.height) keys.d.pressed = false;
   if(player.x == platform.x + platform.width && player.y <= platform.y + platform.height) keys.a.pressed = false;
 }
+//////
+
 
 function movement(){
   if (keys.a.pressed) player.velocityX = -5;
@@ -96,7 +121,7 @@ window.addEventListener("keydown", (event) => {
   
   switch (event.key) {
     case " ":
-       if(player.velocityY === 0) player.velocityY = -15;
+       if(player.velocityY == 0) player.velocityY = -15;
       break;
       
 

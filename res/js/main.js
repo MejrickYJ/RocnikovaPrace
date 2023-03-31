@@ -72,7 +72,7 @@ function acceleration(){
 
 //Collision
 function collision(){
-  
+  //Kolize s horní a dolní stranou platformy
   if(player.y + player.height + player.velocityY >= platform.y && player.x + player.width >= platform.x &&
      player.y <= platform.y + platform.height && player.x <= platform.x + platform.width){
     
@@ -85,15 +85,16 @@ function collision(){
   }
 
 
-/////POZN. Kolize se spikem na leve strane - dodelat kolizi se zbytkem stran
 
-  if(player.x + player.width + player.height  == spike.x + spike.height && player.y + player.height >= spike.y) console.log("jsi skoncil")
-
-
-  if(player.x + player.width == platform.x && player.y <= platform.y + platform.height) keys.d.pressed = false;
-  if(player.x == platform.x + platform.width && player.y <= platform.y + platform.height) keys.a.pressed = false;
+  //Kolize se spikem, fungují boční stěny spiku
+  if((player.x + player.width + player.height  == spike.x + spike.height && player.y + player.height + player.width + player.velocityY >= spike.y) || (player.x + player.height  == spike.x + spike.height + spike.width && player.y + player.height + player.velocityY >= spike.y))  console.log("jsi skoncil")
+ 
+  //Kolize s levou stranou platformy
+  if(player.x + player.width == platform.x && (player.y <= platform.y + platform.height && player.y >= platform.y) || player.x + player.width == platform.x && (player.y + player.height <= platform.y + platform.height && player.y + player.height >= platform.y)) keys.d.pressed = false;
+  //Kolize s pravou stranou platformy
+  if(player.x == platform.x + platform.width && (player.y <= platform.y + platform.height && player.y >= platform.y) || player.x == platform.x + platform.width && (player.y + player.height <= platform.y + platform.height && player.y + player.height >= platform.y)) keys.a.pressed = false;
 }
-//////
+
 
 
 function movement(){
@@ -121,7 +122,7 @@ window.addEventListener("keydown", (event) => {
   
   switch (event.key) {
     case " ":
-       if(player.velocityY == 0) player.velocityY = -15;
+       if(player.velocityY == 0) player.velocityY = -16;
       break;
       
 

@@ -40,8 +40,8 @@ class Spike{
 }
 
 const player = new Player();  //vytvoření hráče
-const platform = new Platform();
-const spike =  new Spike();
+const platform = new Platform();  //vytvoření platformy
+const spike =  new Spike();  //vytvoření spiku
 
 
 
@@ -84,15 +84,17 @@ function collision(){
     speed = 0.5;
   }
 
-
-
-  //Kolize se spikem, fungují boční stěny spiku
-  if((player.x + player.width + player.height  == spike.x + spike.height && player.y + player.height + player.width + player.velocityY >= spike.y) || (player.x + player.height  == spike.x + spike.height + spike.width && player.y + player.height + player.velocityY >= spike.y))  console.log("jsi skoncil")
- 
   //Kolize s levou stranou platformy
   if(player.x + player.width == platform.x && (player.y <= platform.y + platform.height && player.y >= platform.y) || player.x + player.width == platform.x && (player.y + player.height <= platform.y + platform.height && player.y + player.height >= platform.y)) keys.d.pressed = false;
   //Kolize s pravou stranou platformy
   if(player.x == platform.x + platform.width && (player.y <= platform.y + platform.height && player.y >= platform.y) || player.x == platform.x + platform.width && (player.y + player.height <= platform.y + platform.height && player.y + player.height >= platform.y)) keys.a.pressed = false;
+
+
+  //Kolize se spikem
+  if(player.y + player.height + player.velocityY >= spike.y && player.x + player.width >= spike.x &&
+    player.y <= spike.y + spike.height && player.x <= spike.x + spike.width) console.log("jsi skoncil") 
+
+  
 }
 
 
@@ -122,7 +124,7 @@ window.addEventListener("keydown", (event) => {
   
   switch (event.key) {
     case " ":
-       if(player.velocityY == 0) player.velocityY = -16;
+      if(player.velocityY == 0) player.velocityY = -15.55;
       break;
       
 

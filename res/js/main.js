@@ -9,7 +9,7 @@ canvas.height = 800;
 class Player {
   constructor() {
     this.x = 775;  //pozice na ose X
-    this.y = 25;  //pozice na ose Y
+    this.y = 50;  //pozice na ose Y
     this.width = 50;  //šířka hráče
     this.height = 50; //výška hráče
     this.velocityX = 0; //rychlost na ose X po které se hráč bude posouvat
@@ -21,18 +21,23 @@ class Player {
 }
 
 class Platform {
-  constructor() {
-    this.x = 725;
-    this.y = 75;  
-    this.width = 150;
-    this.height = 50;
+  constructor(x,y,w,h) {
+    this.x = x;
+    this.y = y;  
+    this.width = w;
+    this.height = h;
   }
-
+  draw(){
+    ctx.fillstyle = "black";
+    ctx.fillRect(this.x,this.y,this.w,this.h);
+    
+  }
+  
 }
 
 class Spike{
   constructor() {
-    this.x = 1000;
+    this.x = 1200;
     this.y = 750;  
     this.width = 20;
     this.height = 50;
@@ -40,7 +45,16 @@ class Spike{
 }
 
 const player = new Player();  //vytvoření hráče
-const platform = new Platform();  //vytvoření platformy
+const platforms = [new Platform(725,100,150,50),
+                   new Platform(1050,200,150,50),
+                   new Platform(400,200,150,50),
+                   new Platform(700,350,200,50),
+                   new Platform(650,650,300,50),
+                   new Platform(400,500,150,50),
+                   new Platform(1050,500,150,50),
+                   new Platform(55,350,120,50),
+                   new Platform(1425,352,120,50)
+                  ];
 const spike =  new Spike();  //vytvoření spiku
 
 
@@ -55,11 +69,10 @@ function draw() {
   ctx.fillStyle = "green";
   ctx.fillRect(player.x, player.y, player.width, player.height);
 
-  ctx.fillStyle = "black";
-  ctx.fillRect(platform.x, platform.y, platform.width, platform.height);
-
   ctx.fillStyle = "orange";
   ctx.fillRect(spike.x, spike.y, spike.width, spike.height);
+  
+  ctx.fillStyle = "black";
 }
 
 function acceleration(){
@@ -72,9 +85,10 @@ function acceleration(){
 
 //Collision
 function collision(){
+  platforms.forEach((platforms) => { 
   //Kolize s horní a dolní stranou platformy
-  if(player.y + player.height + player.velocityY >= platform.y && player.x + player.width >= platform.x &&
-     player.y <= platform.y + platform.height && player.x <= platform.x + platform.width){
+  if(player.y + player.height + player.velocityY >= platforms.y && player.x + player.width >= platforms.x &&
+     player.y <= platforms.y + platforms.height && player.x <= platforms.x + platforms.width){
     
     player.velocityY = 0;
     speed = 0;
@@ -85,18 +99,17 @@ function collision(){
   }
 
   //Kolize s levou stranou platformy
-  if(player.x + player.width == platform.x && (player.y <= platform.y + platform.height && player.y >= platform.y) || player.x + player.width == platform.x && (player.y + player.height <= platform.y + platform.height && player.y + player.height >= platform.y)) keys.d.pressed = false;
+  if(player.x + player.width == platforms.x && (player.y <= platforms.y + platforms.height && player.y >= platforms.y) || player.x + player.width == platforms.x && (player.y + player.height <= platforms.y + platforms.height && player.y + player.height >= platforms.y)) keys.d.pressed = false;
   //Kolize s pravou stranou platformy
-  if(player.x == platform.x + platform.width && (player.y <= platform.y + platform.height && player.y >= platform.y) || player.x == platform.x + platform.width && (player.y + player.height <= platform.y + platform.height && player.y + player.height >= platform.y)) keys.a.pressed = false;
+  if(player.x == platforms.x + platforms.width && (player.y <= platforms.y + platforms.height && player.y >= platforms.y) || player.x == platforms.x + platforms.width && (player.y + player.height <= platforms.y + platforms.height && player.y + player.height >= platforms.y)) keys.a.pressed = false;
 
 
   //Kolize se spikem
   if(player.y + player.height + player.velocityY >= spike.y && player.x + player.width >= spike.x &&
     player.y <= spike.y + spike.height && player.x <= spike.x + spike.width) console.log("jsi skoncil") 
 
-  
+  });
 }
-
 
 
 function movement(){
@@ -105,7 +118,6 @@ function movement(){
   player.x += player.velocityX;
 
 }
-
 
 
 const keys = { 
@@ -118,16 +130,14 @@ const keys = {
   },
 }
 
-  
 
 window.addEventListener("keydown", (event) => {
   
   switch (event.key) {
     case " ":
-      if(player.velocityY == 0) player.velocityY = -15.55;
+      if(player.velocityY == 0) player.velocityY = -13.55;
       break;
       
-
     case "a":
       keys.a.pressed = true;
       break;
@@ -151,27 +161,30 @@ window.addEventListener("keyup", (event) => {
   }
 });
 
+
+ctx.fillStyle = "black";
 function gameLoop() {
   window.requestAnimationFrame(gameLoop);
-  player.velocityX = 0; 
+
   if(player.x <= 0) keys.a.pressed = false;
   else if(player.x >= 1549) keys.d.pressed = false;
   else if(player.y <= 0) player.velocityY = 0;
 
-  collision();
-
-  movement();
-
-  
-
   clearCanvas();
-
+  movement();
   draw();
 
+  platforms.forEach((platforms) => {
+      ctx.fillRect(platforms.x, platforms.y, platforms.width, platforms.height);
+    });
+    
   acceleration();
-  
+  collision();
+  player.velocityX = 0; 
   player.gravity();
+  
 }
+
 
 window.onload = () => {
   window.requestAnimationFrame(gameLoop);

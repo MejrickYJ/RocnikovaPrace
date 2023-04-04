@@ -20,6 +20,15 @@ class Player {
   }
 }
 
+class Estus {
+  constructor(){
+    this.x = 115;
+    this.y = 275;
+    this.width = 30;
+    this.height = 50;
+  }
+}
+
 class Platform {
   constructor(x,y,w,h) {
     this.x = x;
@@ -58,7 +67,7 @@ const spikes =  [new Spike(1325,750,25,50),
                  new Spike(462,150,25,50),
                  new Spike(1112,150,25,50)
                 ];  
-
+const estus = new Estus();
 
 
 
@@ -70,6 +79,9 @@ function clearCanvas() {
 function draw() {
   ctx.fillStyle = "green";
   ctx.fillRect(player.x, player.y, player.width, player.height);
+
+  ctx.fillStyle = "yellow";
+  ctx.fillRect(estus.x, estus.y, estus.width, estus.height);
 
   ctx.fillStyle = "orange";
   
@@ -106,7 +118,7 @@ function platformCollision(){
   if(player.x == platforms.x + platforms.width && (player.y <= platforms.y + platforms.height && player.y >= platforms.y) || player.x == platforms.x + platforms.width && (player.y + player.height <= platforms.y + platforms.height && player.y + player.height >= platforms.y)) keys.a.pressed = false;
 
   });
-}
+};
 
 function spikeCollision(){
   spikes.forEach((spikes) => {
@@ -115,7 +127,12 @@ function spikeCollision(){
     player.y <= spikes.y + spikes.height && player.x <= spikes.x + spikes.width) console.log("jsi skoncil") 
 
   });
-}
+};
+
+let estusPosition = Math.floor(Math.random() * 8);
+function estusCollision(){
+
+};
 
 function movement(){
   if (keys.a.pressed) player.velocityX = -5;
@@ -189,6 +206,7 @@ function gameLoop() {
   });
     
   acceleration();
+  estusCollision();
   platformCollision();
   spikeCollision();
   player.velocityX = 0; 

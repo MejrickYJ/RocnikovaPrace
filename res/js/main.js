@@ -129,8 +129,46 @@ function spikeCollision(){
   });
 };
 
-let estusPosition = Math.floor(Math.random() * 8);
+function estusPosition(){
+  let i = Math.floor(Math.random() * 5 + 1);
+  switch(i){
+    case 1:
+      estus.height = 50;
+      estus.width = 30;
+      estus.x = 115;
+      estus.y = 275;
+      break;
+    case 2:
+      estus.height = 50;
+      estus.width = 30;
+      estus.x = 70;
+      estus.y = 680;
+      break;
+    case 3:
+      estus.height = 50;
+      estus.width = 30;
+      estus.x = 1445;
+      estus.y = 275;
+      break;
+    case 4:  
+      estus.height = 50;
+      estus.width = 30;
+      estus.x = 1500;
+      estus.y = 680;
+      break;
+    case 5:
+      estus.height = 50;
+      estus.width = 30;
+      estus.x = 785;
+      estus.y = 30;
+      break;    
+  }
+console.log(i);
+}; 
+
 function estusCollision(){
+  if(player.y + player.height + player.velocityY >= estus.y && player.x + player.width >= estus.x &&
+    player.y <= estus.y + estus.height && player.x <= estus.x + estus.width) estusPosition()
 
 };
 
@@ -206,8 +244,8 @@ function gameLoop() {
   });
     
   acceleration();
-  estusCollision();
   platformCollision();
+  estusCollision();
   spikeCollision();
   player.velocityX = 0; 
   player.gravity();

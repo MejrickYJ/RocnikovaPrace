@@ -2,6 +2,7 @@ const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
 let speed = 0.5;
+let score = 0;
 
 canvas.width = 1600;
 canvas.height = 800;
@@ -131,6 +132,9 @@ function spikeCollision(){
 
 function estusPosition(){
   let i = Math.floor(Math.random() * 5 + 1);
+  let r = 0;
+  if(r == i) i = Math.floor(Math.random() * 5 + 1);
+  else{
   switch(i){
     case 1:
       estus.height = 50;
@@ -163,12 +167,13 @@ function estusPosition(){
       estus.y = 30;
       break;    
   }
-console.log(i);
+}
+  r = i;
 }; 
 
 function estusCollision(){
   if(player.y + player.height + player.velocityY >= estus.y && player.x + player.width >= estus.x &&
-    player.y <= estus.y + estus.height && player.x <= estus.x + estus.width) estusPosition()
+    player.y <= estus.y + estus.height && player.x <= estus.x + estus.width) estusPosition(), score++;
 
 };
 
@@ -225,6 +230,7 @@ window.addEventListener("keyup", (event) => {
 ctx.fillStyle = "black";
 function gameLoop() {
   window.requestAnimationFrame(gameLoop);
+  document.querySelector('#score').innerHTML='SCORE: '  + score;
 
   if(player.x <= 0) keys.a.pressed = false;
   else if(player.x >= 1549) keys.d.pressed = false;
@@ -245,9 +251,9 @@ function gameLoop() {
     
   acceleration();
   platformCollision();
+  player.velocityX = 0;
   estusCollision();
   spikeCollision();
-  player.velocityX = 0; 
   player.gravity();
   
 }

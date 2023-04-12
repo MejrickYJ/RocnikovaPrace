@@ -52,3 +52,13 @@ a:hover {
   background-color: white;
   border: 5px solid red;
 }
+
+#score {
+  color: red;
+  font-family: Zen Old Mincho;
+  font-size: 40px;
+  font-weight: bold;
+  position: fixed;
+  top: 13%;
+  left: 13%;
+}

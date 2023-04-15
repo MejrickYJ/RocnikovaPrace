@@ -25,10 +25,10 @@ class Player {
 
 class Estus {
   constructor(){
-    this.x = 115;
+    this.x = 95;
     this.y = 275;
-    this.width = 30;
-    this.height = 50;
+    this.width = 70;
+    this.height = 70;
   }
 }
 
@@ -74,11 +74,11 @@ const platforms = [new Platform(725,100,150,50),
                    new Platform(1400,352,120,50)
                   ];
 
-const spikes =  [new Spike(1325,750,25,50),
-                 new Spike(250,750,25,50), 
-                 new Spike(788,300,25,50),
-                 new Spike(462,150,25,50),
-                 new Spike(1112,150,25,50)
+const spikes =  [new Spike(1318,750,40,50),
+                 new Spike(242,750,40,50), 
+                 new Spike(780,300,40,50),
+                 new Spike(455,150,40,50),
+                 new Spike(1105,150,40,50)
                 ]; 
 
 const enemy = new Enemy(600,124,50,50);
@@ -87,17 +87,27 @@ const enemy3 = new Enemy(450,750,50,50);
 
 const estus = new Estus();
 
-function clearCanvas() {
-  ctx.fillStyle = "white";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-}
 
 function draw() {
+
+  let background = new Image();
+  let estusI = new Image();
+  let spikeI = new Image();
+
+  estusI.src = "./res/img/estus.png";
+  background.src = "./res/img/backgroundI.jpg";
+  spikeI.src = "./res/img/spike.png";
+  ctx.drawImage(background,0,0,canvas.width,canvas.height);
+  ctx.drawImage(estusI,estus.x,estus.y,estus.width,estus.height);
+  
+  spikes.forEach((spikes) => {
+    
+      ctx.drawImage(spikeI,spikes.x, spikes.y, spikes.width, spikes.height);
+
+  });
+
   ctx.fillStyle = "blue";
   ctx.fillRect(player.x, player.y, player.width, player.height);
-
-  ctx.fillStyle = "yellow";
-  ctx.fillRect(estus.x, estus.y, estus.width, estus.height);
 
   ctx.fillStyle = "green";
   ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
@@ -105,7 +115,7 @@ function draw() {
   ctx.fillRect(enemy3.x, enemy3.y, enemy3.width, enemy3.height);
 
 
-  ctx.fillStyle = "black";
+  ctx.fillStyle = "orangered";
 }
 
 function acceleration(){
@@ -161,33 +171,23 @@ function estusPosition(){
   
   switch(i){
     case 1:
-      estus.height = 50;
-      estus.width = 30;
-      estus.x = 115;
+      estus.x = 95;
       estus.y = 275;
       break;
     case 2:
-      estus.height = 50;
-      estus.width = 30;
-      estus.x = 70;
+      estus.x = 50;
       estus.y = 680;
       break;
     case 3:
-      estus.height = 50;
-      estus.width = 30;
-      estus.x = 1445;
+      estus.x = 1425;
       estus.y = 275;
       break;
-    case 4:  
-      estus.height = 50;
-      estus.width = 30;
-      estus.x = 1500;
+    case 4:
+      estus.x = 1480;
       estus.y = 680;
       break;
     case 5:
-      estus.height = 50;
-      estus.width = 30;
-      estus.x = 785;
+      estus.x = 765;
       estus.y = 30;
       break;    
   }
@@ -206,7 +206,7 @@ function enemyCollision(){
 
 }
 
-const m = 2;
+let m = 6;
 let move = true;
 
 function enemyMovement(){
@@ -331,18 +331,11 @@ function gameLoop() {
   else if(player.x >= 1549) keys.d.pressed = false;
   else if(player.y <= 0) player.velocityY = 0;
 
-  clearCanvas();
-  
   draw();
 
   platforms.forEach((platforms) => {
       ctx.fillRect(platforms.x, platforms.y, platforms.width, platforms.height);
     });
-    
-  spikes.forEach((spikes) => {
-      ctx.fillStyle = "orange";
-      ctx.fillRect(spikes.x, spikes.y, spikes.width, spikes.height);
-  });
 
   if(turned){
     ctx.fillStyle = "green";

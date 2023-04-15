@@ -87,8 +87,6 @@ const enemy3 = new Enemy(450,750,50,50);
 
 const estus = new Estus();
 
-
-
 function clearCanvas() {
   ctx.fillStyle = "white";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -161,7 +159,6 @@ function estusPosition(){
   let i = Math.floor(Math.random() * 5 + 1);
   while(r==i) i = Math.floor(Math.random() * 5 + 1);
   
-
   switch(i){
     case 1:
       estus.height = 50;

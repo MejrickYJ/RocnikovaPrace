@@ -19,21 +19,18 @@ a:hover{
 }
 
 .wrapper {
-  margin-top: 15%;
+  margin: 17% auto;
+  text-align: center;
 }
 
 .start,
 .tutorial {
   color: white;
-  font-size: 75px;
+  font-size: 100px;
   font-family: Zen Old Mincho;
-  width: fit-content;
-  margin: 0 auto;
+  
 }
 
-.start {
-  margin-bottom: 20px;
-}
 
 
 

@@ -1,5 +1,7 @@
+import { Player, Estus, Platform, Spike, Enemy } from "./classes.js";
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
+
 
 let speed = 0.5;
 let score = 0;
@@ -9,58 +11,7 @@ let dead = false;
 canvas.width = 1600;
 canvas.height = 800;
 
-class Player {
-  constructor() {
-    this.x = 775;  //pozice na ose X
-    this.y = 50;  //pozice na ose Y
-    this.width = 50;  //šířka hráče
-    this.height = 50; //výška hráče
-    this.velocityX = 0; //rychlost na ose X po které se hráč bude posouvat
-    this.velocityY = 1;  //rychlost na ose Y po které se hráč bude posouvat
-  }
-  gravity() {
-    player.y += player.velocityY;  //do hráčovy pozice na ose Y se přičíta rychlost na ose Y, způsobuje padání dolů
-  }
-}
 
-class Estus {
-  constructor(){
-    this.x = 95;
-    this.y = 275;
-    this.width = 70;
-    this.height = 70;
-  }
-}
-
-class Platform {
-  constructor(x,y,w,h) {
-    this.x = x;
-    this.y = y;  
-    this.width = w;
-    this.height = h;
-  }
-  
-}
-
-class Spike{
-  constructor(x,y,w,h) {
-    this.x = x;
-    this.y = y; 
-    this.width = w;
-    this.height = h;
-  }
-}
-
-class Enemy{
-  constructor(x,y,w,h) {
-    this.x = x;
-    this.y = y; 
-    this.width = w;
-    this.height = h;
-    this.velocityX = 0;
-    this.velocityY = 1;
-  }
-}
 
 const player = new Player();  //vytvoření hráče
 const platforms = [new Platform(725,100,150,50),
@@ -86,7 +37,7 @@ const enemy2 = new Enemy(950,550,50,50);
 const enemy3 = new Enemy(450,750,50,50);
 
 const estus = new Estus();
-
+export { player, platforms, spikes, enemy, enemy2, enemy3, estus };
 
 function draw() {
 
@@ -101,9 +52,7 @@ function draw() {
   ctx.drawImage(estusI,estus.x,estus.y,estus.width,estus.height);
   
   spikes.forEach((spikes) => {
-    
       ctx.drawImage(spikeI,spikes.x, spikes.y, spikes.width, spikes.height);
-
   });
 
   ctx.fillStyle = "blue";

@@ -1,4 +1,5 @@
 import { Player, Estus, Platform, Spike, Enemy } from "./classes.js";
+import { platformCollision } from "./collision.js";
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
@@ -75,35 +76,12 @@ function acceleration(){
   }
 }
 
-//Kolize s platformou
-function platformCollision(){
-  platforms.forEach((platforms) => { 
-  //Kolize s horní stranou platformy
-  if(player.y + player.height + player.velocityY >= platforms.y && player.y < platforms.y && player.x + player.width > platforms.x && player.x < platforms.x + platforms.width){
-    player.y = platforms.y - player.height;
-    player.velocityY = 0;
-   
-  }
-  //Kolize s dolní stranou platformy
-  if (player.y <= platforms.y + platforms.height && player.y + player.height > platforms.y + platforms.height && player.x + player.width > platforms.x && player.x < platforms.x + platforms.width) {
-    player.y = platforms.y + platforms.height;
-    player.velocityY *= -0.5;
-  }
-
-  //Kolize s levou stranou platformy
-  if(player.x + player.width == platforms.x && (player.y <= platforms.y + platforms.height && player.y >= platforms.y) || player.x + player.width == platforms.x && (player.y + player.height <= platforms.y + platforms.height && player.y + player.height >= platforms.y)) keys.d.pressed = false;
-  //Kolize s pravou stranou platformy
-  if(player.x == platforms.x + platforms.width && (player.y <= platforms.y + platforms.height && player.y >= platforms.y) || player.x == platforms.x + platforms.width && (player.y + player.height <= platforms.y + platforms.height && player.y + player.height >= platforms.y)) keys.a.pressed = false;
-
-  });
-};
 
 function spikeCollision(){
   spikes.forEach((spikes) => {
   //Kolize se spikem
   if(player.y + player.height + player.velocityY >= spikes.y && player.x + player.width >= spikes.x &&
     player.y <= spikes.y + spikes.height && player.x <= spikes.x + spikes.width){
-      console.log("jsi skoncil")
       document.querySelector('#death').innerHTML='YOU DIED';
       t=0;
       dead = true;
@@ -206,7 +184,7 @@ function movement(){
 }
 
 
-const keys = { 
+export const keys = { 
 
   a: {
     pressed: false,

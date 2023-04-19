@@ -1,18 +1,13 @@
 import { Player, Estus, Platform, Spike, Enemy } from "./classes.js";
-import { platformCollision } from "./collision.js";
+import { platformCollision, enemyCollision, estusCollision, spikeCollision, turned, dead, score, pickUp} from "./collision.js";
+import { movement, enemyMovement, keys } from "./movement.js";
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
-
 let speed = 0.5;
-let score = 0;
-let turned = false;
-let dead = false;
 
 canvas.width = 1600;
 canvas.height = 800;
-
-
 
 const player = new Player();  //vytvoření hráče
 const platforms = [new Platform(725,100,150,50),
@@ -65,7 +60,7 @@ function draw() {
   ctx.fillRect(enemy3.x, enemy3.y, enemy3.width, enemy3.height);
 
 
-  ctx.fillStyle = "orangered";
+  ctx.fillStyle = "purple";
 }
 
 function acceleration(){
@@ -77,22 +72,8 @@ function acceleration(){
 }
 
 
-function spikeCollision(){
-  spikes.forEach((spikes) => {
-  //Kolize se spikem
-  if(player.y + player.height + player.velocityY >= spikes.y && player.x + player.width >= spikes.x &&
-    player.y <= spikes.y + spikes.height && player.x <= spikes.x + spikes.width){
-      document.querySelector('#death').innerHTML='YOU DIED';
-      t=0;
-      dead = true;
-      
-    } 
-
-  });
-};
-
 let r = 0;
-function estusPosition(){
+export function estusPosition(){
   let i = Math.floor(Math.random() * 5 + 1);
   while(r==i) i = Math.floor(Math.random() * 5 + 1);
   
@@ -103,7 +84,7 @@ function estusPosition(){
       break;
     case 2:
       estus.x = 50;
-      estus.y = 680;
+      estus.y = 700;
       break;
     case 3:
       estus.x = 1425;
@@ -111,7 +92,7 @@ function estusPosition(){
       break;
     case 4:
       estus.x = 1480;
-      estus.y = 680;
+      estus.y = 700;
       break;
     case 5:
       estus.x = 765;
@@ -121,139 +102,28 @@ function estusPosition(){
   r = i;
 }; 
 
-function enemyCollision(){
-  if(player.y + player.height + player.velocityY >= enemy.y && player.x + player.width >= enemy.x &&
-    player.y <= enemy.y + enemy.height && player.x <= enemy.x + enemy.width) turned = true, document.querySelector('#gameover').innerHTML='YOU TURNED';
-
-  if(player.y + player.height + player.velocityY >= enemy2.y && player.x + player.width >= enemy2.x &&
-    player.y <= enemy2.y + enemy2.height && player.x <= enemy2.x + enemy2.width) turned = true, document.querySelector('#gameover').innerHTML='YOU TURNED';
-    
-  if(player.y + player.height + player.velocityY >= enemy3.y && player.x + player.width >= enemy3.x &&
-    player.y <= enemy3.y + enemy3.height && player.x <= enemy3.x + enemy3.width) turned = true, document.querySelector('#gameover').innerHTML='YOU TURNED';
-
-}
-
-let m = 6;
-let move = true;
-
-function enemyMovement(){
-  if(enemy.y == 124) move = true; 
-  if(enemy.y == 550) move = false;
-  if(move) {enemy.y += m;}
-  else {enemy.y -= m;}
-
-  
-  
-  if(move) {enemy2.y -= m;}
-  else {enemy2.y += m;}
-  
-
-  if(move) {enemy3.x += m*1.5;}
-  else {enemy3.x -= m*1.5;}
-
-}
 
 let time = 7;
-let t = 1;
+export let transformed = false;
+
 function transformation(){   
     if(time>0){
-      time = time - t;
+      time = time - 1;
       setTimeout(transformation, 1000);  
       document.querySelector('#time').innerHTML='TIME: ' + time;
     }
     if(time == 0){
       document.querySelector('#gameover').innerHTML='YOU TURNED';
-      turned = true;
+      transformed = true;
     }
   }
   
-transformation();
-
-
-function estusCollision(){
-  if(player.y + player.height + player.velocityY >= estus.y && player.x + player.width >= estus.x &&
-    player.y <= estus.y + estus.height && player.x <= estus.x + estus.width) estusPosition(), score++, time = 7;
-
-};
-
-function movement(){
-  if (keys.a.pressed) player.velocityX = -5;
-  else if (keys.d.pressed) player.velocityX = 5;
-  player.x += player.velocityX;
-
-}
-
-
-export const keys = { 
-
-  a: {
-    pressed: false,
-  },
-  d: {
-    pressed: false,
-  },
-}
-
-
-window.addEventListener("keydown", (event) => {
-  
-  switch (event.key) {
-    case " ":
-      if(player.velocityY == 0) player.velocityY = -14.55;
-      break;
-      
-    case "a":
-      keys.a.pressed = true;
-      break;
-
-    case "d":
-      keys.d.pressed = true;
-      break;
-
-    case "A":
-      keys.a.pressed = true;
-      break;
-  
-    case "D":
-      keys.d.pressed = true;
-      break;  
-    
-    case "r":
-      location.reload();
-      break;
-
-    case "R":
-      location.reload();
-      break;        
-  }
-});
-
-window.addEventListener("keyup", (event) => {
-  switch (event.key) {
-
-    case "a":
-      keys.a.pressed = false;
-      break;
-
-    case "d":
-      keys.d.pressed = false;
-      break;
-
-    case "A":
-      keys.a.pressed = false;
-      break;
-  
-    case "D":
-      keys.d.pressed = false;
-      break;  
-  }
-});
+  transformation();
 
 function gameLoop() {
   window.requestAnimationFrame(gameLoop);
   document.querySelector('#score').innerHTML='SCORE: '  + score;
   player.velocityX = 0;
-
   if(player.x <= 0) keys.a.pressed = false;
   else if(player.x >= 1549) keys.d.pressed = false;
   else if(player.y <= 0) player.velocityY = 0;
@@ -264,15 +134,14 @@ function gameLoop() {
       ctx.fillRect(platforms.x, platforms.y, platforms.width, platforms.height);
     });
 
-  if(turned){
+  if(turned || transformed){
     ctx.fillStyle = "green";
     ctx.fillRect(player.x, player.y, player.width, player.height);
     keys.a.pressed = false;
     keys.d.pressed = false;
     player.velocityY = 0;
     speed = 0;
-    t = 0;
-    m = 0;
+    time -= 1;
   }
   
   if(dead){
@@ -281,9 +150,13 @@ function gameLoop() {
       player.velocityX = 0;
       player.velocityY = 0;
       speed = 0;
-      m = 0;
+      time -=1;
   }
 
+  if(pickUp){
+    time = 7;
+  }
+  
   movement();
   acceleration();
   platformCollision();
@@ -294,7 +167,6 @@ function gameLoop() {
   player.gravity();
   
 }
-
 
 window.onload = () => {
   window.requestAnimationFrame(gameLoop);

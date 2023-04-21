@@ -1,5 +1,5 @@
 import { player, enemy, enemy2, enemy3, transformed } from "./main.js";
-import { turned, dead } from "./collision.js";
+import { turned, dead } from "./collisions.js";
 
 export function movement(){
     if (keys.a.pressed) player.velocityX = -5;

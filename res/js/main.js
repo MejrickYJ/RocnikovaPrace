@@ -1,5 +1,5 @@
 import { Player, Estus, Platform, Spike, Enemy } from "./classes.js";
-import { platformCollision, enemyCollision, estusCollision, spikeCollision, turned, dead, score, pickUp} from "./collision.js";
+import { platformCollision, enemyCollision, estusCollision, spikeCollision, turned, dead, score, pickUp} from "./collisions.js";
 import { movement, enemyMovement, keys } from "./movement.js";
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
@@ -50,6 +50,11 @@ function draw() {
   spikes.forEach((spikes) => {
       ctx.drawImage(spikeI,spikes.x, spikes.y, spikes.width, spikes.height);
   });
+  
+  ctx.fillStyle = "purple";
+  platforms.forEach((platforms) => {
+    ctx.fillRect(platforms.x, platforms.y, platforms.width, platforms.height);
+  });
 
   ctx.fillStyle = "blue";
   ctx.fillRect(player.x, player.y, player.width, player.height);
@@ -60,7 +65,7 @@ function draw() {
   ctx.fillRect(enemy3.x, enemy3.y, enemy3.width, enemy3.height);
 
 
-  ctx.fillStyle = "purple";
+ 
 }
 
 function acceleration(){
@@ -129,10 +134,6 @@ function gameLoop() {
   else if(player.y <= 0) player.velocityY = 0;
 
   draw();
-
-  platforms.forEach((platforms) => {
-      ctx.fillRect(platforms.x, platforms.y, platforms.width, platforms.height);
-    });
 
   if(turned || transformed){
     ctx.fillStyle = "green";

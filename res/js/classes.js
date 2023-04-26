@@ -12,12 +12,12 @@ export class Player {
   }
 }
 
-export class Estus {
+export class Medkit {
   constructor() {
-    this.x = 95;
-    this.y = 275;
-    this.width = 70;
-    this.height = 70;
+    this.x = 105;
+    this.y = 290;
+    this.width = 40;
+    this.height = 40;
   }
 }
 

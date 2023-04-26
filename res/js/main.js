@@ -1,5 +1,5 @@
-import { Player, Estus, Platform, Spike, Enemy } from "./classes.js";
-import { platformCollision, enemyCollision, estusCollision, spikeCollision, turned, dead, score, pickUp } from "./collisions.js";
+import { Player, Medkit, Platform, Spike, Enemy } from "./classes.js";
+import { platformCollision, enemyCollision, medkitCollision, spikeCollision, turned, dead, score, pickUp } from "./collisions.js";
 import { movement, enemyMovement, keys } from "./movement.js";
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
@@ -34,19 +34,19 @@ const enemy = new Enemy(600, 124, 50, 50);
 const enemy2 = new Enemy(950, 550, 50, 50);
 const enemy3 = new Enemy(450, 750, 50, 50);
 
-const estus = new Estus();
-export { player, platforms, spikes, enemy, enemy2, enemy3, estus };
+const medkit = new Medkit();
+export { player, platforms, spikes, enemy, enemy2, enemy3, medkit };
 
 function draw() {
   let background = new Image();
-  let estusI = new Image();
+  let medkitI = new Image();
   let spikeI = new Image();
 
-  estusI.src = "./res/img/estus.png";
+  medkitI.src = "./res/img/medkit.png";
   background.src = "./res/img/backgroundI.jpg";
   spikeI.src = "./res/img/spike.png";
   ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
-  ctx.drawImage(estusI, estus.x, estus.y, estus.width, estus.height);
+  ctx.drawImage(medkitI, medkit.x, medkit.y, medkit.width, medkit.height);
 
   spikes.forEach((spikes) => {
     ctx.drawImage(spikeI, spikes.x, spikes.y, spikes.width, spikes.height);
@@ -75,30 +75,30 @@ function acceleration() {
 }
 
 let r = 0;
-export function estusPosition() {
+export function medkitPosition() {
   let i = Math.floor(Math.random() * 5 + 1);
   while (r == i) i = Math.floor(Math.random() * 5 + 1);
 
   switch (i) {
     case 1:
-      estus.x = 95;
-      estus.y = 275;
+      medkit.x = 105;
+      medkit.y = 295;
       break;
     case 2:
-      estus.x = 50;
-      estus.y = 700;
+      medkit.x = 65;
+      medkit.y = 715;
       break;
     case 3:
-      estus.x = 1425;
-      estus.y = 275;
+      medkit.x = 1440;
+      medkit.y = 290;
       break;
     case 4:
-      estus.x = 1480;
-      estus.y = 700;
+      medkit.x = 1495;
+      medkit.y = 715;
       break;
     case 5:
-      estus.x = 765;
-      estus.y = 30;
+      medkit.x = 780;
+      medkit.y = 45;
       break;
   }
   r = i;
@@ -122,13 +122,13 @@ function transformation() {
 transformation();
 
 function gameLoop() {
+  if (player.x <= 0) keys.a.pressed = false;
+  else if (player.x >= 1550) keys.d.pressed = false;
+  else if (player.y <= 0) player.velocityY = 0;
   window.requestAnimationFrame(gameLoop);
   document.querySelector("#score").innerHTML = "SCORE: " + score;
   player.velocityX = 0;
-  if (player.x <= 0) keys.a.pressed = false;
-  else if (player.x >= 1549) keys.d.pressed = false;
-  else if (player.y <= 0) player.velocityY = 0;
-
+  
   draw();
 
   if (turned || transformed) {
@@ -157,7 +157,7 @@ function gameLoop() {
   movement();
   acceleration();
   platformCollision();
-  estusCollision();
+  medkitCollision();
   enemyCollision();
   spikeCollision();
   enemyMovement();

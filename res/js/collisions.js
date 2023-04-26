@@ -2,8 +2,8 @@ import {
   player,
   platforms,
   spikes,
-  estus,
-  estusPosition,
+  medkit,
+  medkitPosition,
   enemy,
   enemy2,
   enemy3,
@@ -65,27 +65,28 @@ export function enemyCollision() {
     player.x + player.width >= enemy.x &&
     player.y <= enemy.y + enemy.height &&
     player.x <= enemy.x + enemy.width
-  )
-    (turned = true),
-      (document.querySelector("#gameover").innerHTML = "YOU TURNED");
-
+  ) {
+    turned = true;
+    document.querySelector("#gameover").innerHTML = "YOU TURNED";
+  }
   if (
     player.y + player.height + player.velocityY >= enemy2.y &&
     player.x + player.width >= enemy2.x &&
     player.y <= enemy2.y + enemy2.height &&
     player.x <= enemy2.x + enemy2.width
-  )
-    (turned = true),
-      (document.querySelector("#gameover").innerHTML = "YOU TURNED");
-
+  ) {
+    turned = true;
+    document.querySelector("#gameover").innerHTML = "YOU TURNED";
+  }
   if (
     player.y + player.height + player.velocityY >= enemy3.y &&
     player.x + player.width >= enemy3.x &&
     player.y <= enemy3.y + enemy3.height &&
     player.x <= enemy3.x + enemy3.width
-  )
-    (turned = true),
-      (document.querySelector("#gameover").innerHTML = "YOU TURNED");
+  ) {
+    turned = true;
+    document.querySelector("#gameover").innerHTML = "YOU TURNED";
+  }
 }
 
 export function spikeCollision() {
@@ -102,13 +103,13 @@ export function spikeCollision() {
   });
 }
 
-export function estusCollision() {
+export function medkitCollision() {
   if (
-    player.y + player.height + player.velocityY >= estus.y &&
-    player.x + player.width >= estus.x &&
-    player.y <= estus.y + estus.height &&
-    player.x <= estus.x + estus.width
+    player.y + player.height + player.velocityY >= medkit.y &&
+    player.x + player.width >= medkit.x &&
+    player.y <= medkit.y + medkit.height &&
+    player.x <= medkit.x + medkit.width
   )
-    estusPosition(), score++, (pickUp = true);
+    medkitPosition(), score++, (pickUp = true);
   else pickUp = false;
 }
